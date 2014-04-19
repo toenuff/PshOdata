@@ -70,7 +70,7 @@ function New-OdataEndpoint {
 	param(
 		[Parameter(Mandatory=$false, ValueFromPipeline=$true)]
 		[PsObject[]] $OdataClasses,
-		[Parameter(Mandatory=$false)]
+		[Parameter(Mandatory=$false, position=0)]
 		[string]$Path = "odata",
 		[Switch]$Force
 	)
@@ -176,7 +176,6 @@ function ConvertTo-ClassXML{
             if ($allparams) {
                 $paramtext = " "*10 + "<ParameterSets>`r`n"
                 $paramtext += " "*12 + "<ParameterSet>`r`n"
-                #TODO hope this works - otherwise, we'll have to do the real paramsetis for MVP
                 $paramtext += " "*14 + "<Name>Default</Name>`r`n" 
                 foreach ($parameter in ($allparams)) {
                     $paramtext += " "*14 + "<Parameter>`r`n"
