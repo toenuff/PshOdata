@@ -123,6 +123,8 @@
             <Field>
               <FieldName>ID</FieldName>
               <ParameterName>ID</ParameterName>
+            </Field>
+            <Field>
               <FieldName>name</FieldName>
               <ParameterName>name</ParameterName>
             </Field>

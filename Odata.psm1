@@ -168,12 +168,12 @@ function ConvertTo-ClassXML{
             # Add Filter parameters/FieldParameterMap section
             if ($class.($verb).FilterParameters) {
                 $paramtext = " "*10 + "<FieldParameterMap>`r`n"
-                $paramtext += " "*12 + "<Field>`r`n"
                 foreach ($parameter in ($class.($verb).FilterParameters)) {
+                    $paramtext += " "*12 + "<Field>`r`n"
                     $paramtext += (" "*14 + "<FieldName>{0}</FieldName>`r`n") -f $parameter
                     $paramtext += (" "*14 + "<ParameterName>{0}</ParameterName>`r`n") -f $parameter
+                    $paramtext += " "*12 + "</Field>`r`n"
                 }
-                $paramtext += " "*12 + "</Field>`r`n"
                 $paramtext += " "*10 + "</FieldParameterMap>`r`n"
                 $text += $paramtext
             }
