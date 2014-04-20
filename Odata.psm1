@@ -147,7 +147,7 @@ function ConvertTo-ClassXML{
             } else {
                 $section = $verb
             }
-            $text += " "*10 + ("<{0}>`r`n" -f  $section)
+            $text += " "*8 + ("<{0}>`r`n" -f  $section)
             $text += " "*10 + ("<Cmdlet>{0}</Cmdlet>`r`n" -f  $class.($verb).Cmdlet)
             $text += $verbtext -f $section, $class.($verb).Cmdlet
 
@@ -187,9 +187,9 @@ function ConvertTo-ClassXML{
                 $paramtext += " "*10 + "</ParameterSets>`r`n"
                 $text += $paramtext
             }
+            $text += " "*8 + "</$section>`r`n"
         }
     }
-    $text += " "*8 + "</$section>`r`n"
     $text += @"
       </CmdletImplementation>
     </Class>

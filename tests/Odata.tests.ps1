@@ -36,7 +36,7 @@ Describe "Add-OdataMethod" {
 		$class.update|should BeNullOrEmpty
 	}
 	It "Creates a DELETE method" {
-		#$class |set-odatamethod -verb delete -cmdlet stop-process
+		$class |set-odatamethod -verb delete -cmdlet stop-process -FilterParams ID -params ID
 	}
 	It "Fails if verb is not valid" {
 		{$class |set-odatamethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
@@ -77,7 +77,7 @@ Describe "ConvertTo-ClassXML" {
     <Class>
       <Name>mosd_Process</Name>
       <CmdletImplementation>
-          <Query>
+        <Query>
           <Cmdlet>get-process</Cmdlet>
           <Options>
             <ParameterName>Name</ParameterName>
@@ -103,6 +103,27 @@ Describe "ConvertTo-ClassXML" {
             </ParameterSet>
           </ParameterSets>
         </Query>
+        <Delete>
+          <Cmdlet>stop-process</Cmdlet>
+          <Options>
+            <ParameterName>ID</ParameterName>
+          </Options>
+          <FieldParameterMap>
+            <Field>
+              <FieldName>ID</FieldName>
+              <ParameterName>ID</ParameterName>
+            </Field>
+          </FieldParameterMap>
+          <ParameterSets>
+            <ParameterSet>
+              <Name>Default</Name>
+              <Parameter>
+                <Name>ID</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+          </ParameterSets>
+        </Delete>
       </CmdletImplementation>
     </Class>
 
@@ -141,9 +162,9 @@ Describe "New-OdataEndpoint" {
 
 "@
     }
-    # need validator for schema.xml
 }
 
 # cleanup the directory created during the tests
 rm (join-path $here odata) -recurse
 
+#TODO consider moving validation text into validator files in the /tests directory
