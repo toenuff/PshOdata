@@ -36,7 +36,7 @@ Describe "Add-OdataMethod" {
 		$class.update|should BeNullOrEmpty
 	}
 	It "Creates a DELETE method" {
-		$class |set-odatamethod -verb delete -cmdlet stop-process -FilterParams ID -params ID
+		$class |set-odatamethod -verb delete -cmdlet stop-process -FilterParams ID,name -params ID,name
 	}
 	It "Fails if verb is not valid" {
 		{$class |set-odatamethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
@@ -44,6 +44,53 @@ Describe "Add-OdataMethod" {
 	It "Fails if cmdlet is not valid" {
 		{$class |set-odatamethod -verb get -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}
+}
+
+function CommandWith2ParamSets {
+    param(
+        [Parameter(Mandatory=$true,ParameterSetName="set1")]
+        [string] $set1param,
+        [Parameter(Mandatory=$true,ParameterSetName="set2")]
+        [string] $set2param,
+        [Parameter(Mandatory=$false)]
+        [switch] $switchparam
+    )
+}
+Describe "Get-ParameterSetXML" {
+    It "Does not work with an invalid command" {
+        {Get-ParameterSetXML 'lskdfjlsdfjlksdfjljdfkljdsf'} |should Throw
+    }
+    It "Converts the ParameterSet of a command into appropriate schema.xml syntax" {
+        Get-ParameterSetXML CommandWith2ParamSets |Should be @'
+          <ParameterSets>
+            <ParameterSet>
+              <Name>set1</Name>
+              <Parameter>
+                <Name>set1param</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>switchparam</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>set2</Name>
+              <Parameter>
+                <Name>set2param</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>switchparam</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+          </ParameterSets>
+
+'@
+    }
 }
 
 Describe "ConvertTo-MofText" {
@@ -71,63 +118,10 @@ Describe "ConvertTo-ResourceXML" {
     }
 }
 
+$validatexml = [IO.file]::ReadAllText((join-path tests validate_schema.xml))
 Describe "ConvertTo-ClassXML" {
     It "Converts a class to the text needed in the class section of the schema.xml" {
-        $class |ConvertTo-ClassXML |Should be @'
-    <Class>
-      <Name>mosd_Process</Name>
-      <CmdletImplementation>
-        <Query>
-          <Cmdlet>get-process</Cmdlet>
-          <Options>
-            <ParameterName>Name</ParameterName>
-            <ParameterName>ID</ParameterName>
-          </Options>
-          <FieldParameterMap>
-            <Field>
-              <FieldName>Name</FieldName>
-              <ParameterName>Name</ParameterName>
-            </Field>
-          </FieldParameterMap>
-          <ParameterSets>
-            <ParameterSet>
-              <Name>Default</Name>
-              <Parameter>
-                <Name>Name</Name>
-                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
-              </Parameter>
-              <Parameter>
-                <Name>ID</Name>
-                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
-              </Parameter>
-            </ParameterSet>
-          </ParameterSets>
-        </Query>
-        <Delete>
-          <Cmdlet>stop-process</Cmdlet>
-          <Options>
-            <ParameterName>ID</ParameterName>
-          </Options>
-          <FieldParameterMap>
-            <Field>
-              <FieldName>ID</FieldName>
-              <ParameterName>ID</ParameterName>
-            </Field>
-          </FieldParameterMap>
-          <ParameterSets>
-            <ParameterSet>
-              <Name>Default</Name>
-              <Parameter>
-                <Name>ID</Name>
-                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
-              </Parameter>
-            </ParameterSet>
-          </ParameterSets>
-        </Delete>
-      </CmdletImplementation>
-    </Class>
-
-'@
+        $class |ConvertTo-ClassXML |Should be $validatexml
     }
 }
 
@@ -167,4 +161,3 @@ Describe "New-OdataEndpoint" {
 # cleanup the directory created during the tests
 rm (join-path $here odata) -recurse
 
-#TODO consider moving validation text into validator files in the /tests directory

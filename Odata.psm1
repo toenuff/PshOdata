@@ -19,6 +19,11 @@ $rbacconfigtemplate = @'
 <Users DefaultGroup="UserGroup"></Users>
 </RbacConfiguration>
 '@
+
+# Following is a list of parameternames to ignore when creating the parameterlist section in schema.xml
+$paramignorelist = @('PipelineVariable','OutBuffer','OutVariable','WarningVariable','ErrorVariable','WarningAction',
+                     'ErrorAction','Debug','Verbose')
+
 function New-OdataClass {
 	param(
 		[Parameter(Mandatory=$true, Position=0)]
@@ -173,20 +178,7 @@ function ConvertTo-ClassXML{
                 $text += $paramtext
             }
             $allparams = $class.($verb).Parameters + $class.($verb).FilterParameters |select -Unique
-            if ($allparams) {
-                $paramtext = " "*10 + "<ParameterSets>`r`n"
-                $paramtext += " "*12 + "<ParameterSet>`r`n"
-                $paramtext += " "*14 + "<Name>Default</Name>`r`n" 
-                foreach ($parameter in ($allparams)) {
-                    $paramtext += " "*14 + "<Parameter>`r`n"
-                    $paramtext += (" "*16 + "<Name>{0}</Name>`r`n") -f $parameter
-                    $paramtext += " "*16 + "<Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>`r`n"
-                    $paramtext += " "*14 + "</Parameter>`r`n"
-                }
-                $paramtext += " "*12 + "</ParameterSet>`r`n"
-                $paramtext += " "*10 + "</ParameterSets>`r`n"
-                $text += $paramtext
-            }
+            $text += Get-ParameterSetXML $class.($verb).cmdlet
             $text += " "*8 + "</$section>`r`n"
         }
     }
@@ -219,4 +211,31 @@ class mosd_{0}
 	}
 	$text += "};`r`n"
 	$text
+}
+
+function Get-ParameterSetXML {
+    param(
+          [Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true)]
+          [ValidateScript({get-command $_})]
+          [String] $Cmdlet
+    )
+    $text = " "*10 + "<ParameterSets>`r`n"
+    foreach ($parameterset in (get-command $cmdlet |select -ExpandProperty parametersets)) {
+        $text += " "*12 + "<ParameterSet>`r`n"
+        $text += " "*14 + "<Name>{0}</Name>`r`n" -f $parameterset.name
+        foreach ($parameter in ($parameterset.Parameters)) {
+            if ($paramignorelist -notcontains $parameter.name) {
+                $text += " "*14 + "<Parameter>`r`n"
+                $text += " "*16 + "<Name>{0}</Name>`r`n" -f $parameter.name
+                $text += " "*16 + "<Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>`r`n"
+                if ($parameter.IsMandatory) {
+                    $text += " "*16 + "<IsMandatory>True</IsMandatory>`r`n"
+                }
+                $text += " "*14 + "</Parameter>`r`n"
+            }
+        }
+        $text += " "*12 + "</ParameterSet>`r`n"
+    }
+    $text += " "*10 + "</ParameterSets>`r`n"
+    $text
 }

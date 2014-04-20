@@ -1,0 +1,206 @@
+    <Class>
+      <Name>mosd_Process</Name>
+      <CmdletImplementation>
+        <Query>
+          <Cmdlet>get-process</Cmdlet>
+          <Options>
+            <ParameterName>Name</ParameterName>
+            <ParameterName>ID</ParameterName>
+          </Options>
+          <FieldParameterMap>
+            <Field>
+              <FieldName>Name</FieldName>
+              <ParameterName>Name</ParameterName>
+            </Field>
+          </FieldParameterMap>
+          <ParameterSets>
+            <ParameterSet>
+              <Name>Name</Name>
+              <Parameter>
+                <Name>Name</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>ComputerName</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Module</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>FileVersionInfo</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>NameWithUserName</Name>
+              <Parameter>
+                <Name>Name</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>IncludeUserName</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>IdWithUserName</Name>
+              <Parameter>
+                <Name>Id</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>IncludeUserName</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>Id</Name>
+              <Parameter>
+                <Name>Id</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>ComputerName</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Module</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>FileVersionInfo</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>InputObjectWithUserName</Name>
+              <Parameter>
+                <Name>InputObject</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>IncludeUserName</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>InputObject</Name>
+              <Parameter>
+                <Name>InputObject</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>ComputerName</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Module</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>FileVersionInfo</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+          </ParameterSets>
+        </Query>
+        <Delete>
+          <Cmdlet>stop-process</Cmdlet>
+          <Options>
+            <ParameterName>ID</ParameterName>
+            <ParameterName>name</ParameterName>
+          </Options>
+          <FieldParameterMap>
+            <Field>
+              <FieldName>ID</FieldName>
+              <ParameterName>ID</ParameterName>
+              <FieldName>name</FieldName>
+              <ParameterName>name</ParameterName>
+            </Field>
+          </FieldParameterMap>
+          <ParameterSets>
+            <ParameterSet>
+              <Name>Id</Name>
+              <Parameter>
+                <Name>Id</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>PassThru</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Force</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>WhatIf</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Confirm</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>Name</Name>
+              <Parameter>
+                <Name>Name</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>PassThru</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Force</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>WhatIf</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Confirm</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>InputObject</Name>
+              <Parameter>
+                <Name>InputObject</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>PassThru</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Force</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>WhatIf</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+              <Parameter>
+                <Name>Confirm</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+              </Parameter>
+            </ParameterSet>
+          </ParameterSets>
+        </Delete>
+      </CmdletImplementation>
+    </Class>
