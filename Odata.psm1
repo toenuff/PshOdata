@@ -57,7 +57,6 @@ function Set-OdataMethod {
 	PROCESS {
 		$method = new-object psobject -Property @{
 			Cmdlet = $cmdlet
-			# TODO Consider allowing other module locations in final endpoint
 			Module = 'c:\windows\system32\WindowsPowerShell\v1.0\Modules\{0}' -f (get-command $Cmdlet).Modulename
 			Parameters = $Parameters
 			FilterParameters = $FilterParameters
@@ -95,9 +94,13 @@ function New-OdataEndpoint {
 			$mof += ConvertTo-MofText $class
             $resourcestring += ConvertTo-ResourceXML $class
             $classstring += ConvertTo-ClassXML $class
+            $usedmodules = @()
             foreach ($verb in @('get','update','delete','create')) {
                 if ($class.($verb)) {
-                    $modules += "<Module>{0}</Module>`r`n" -f $class.($verb).module
+                    if ($usedmodules -notcontains $class.($verb).module) {
+                        $modules += "<Module>{0}</Module>`r`n" -f $class.($verb).module
+                        $usedmodules += $class.($verb).module
+                    }
                 }
             }
 		}
@@ -144,11 +147,8 @@ function ConvertTo-ClassXML{
             } else {
                 $section = $verb
             }
-            $verbtext += @'
-          <{0}>
-          <Cmdlet>{1}</Cmdlet>
-
-'@
+            $text += " "*10 + ("<{0}>`r`n" -f  $section)
+            $text += " "*10 + ("<Cmdlet>{0}</Cmdlet>`r`n" -f  $class.($verb).Cmdlet)
             $text += $verbtext -f $section, $class.($verb).Cmdlet
 
             # Add Parameters/Options section
@@ -220,11 +220,3 @@ class mosd_{0}
 	$text += "};`r`n"
 	$text
 }
-
-#TODO
-# Consider validation cmdlet that ensures that the PK exists from the get
-# Consider validation cmdlet that ensures that other verbs will work with PK, i.e., they should have a fieldparametermap value for pk or at least some fieldparametermap
-# Consider other data types besides strings in the parameterset section in the schema.xml
-# Switch type should be first
-# Allow FieldParameterMap to use mappings, i.e., parameter names that are different from property names
-# Allow multiple parameter sets
