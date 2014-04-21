@@ -1,10 +1,10 @@
 $here = (Split-Path (Split-Path -Parent $MyInvocation.MyCommand.Path))
 
-Invoke-Expression (gc "$here\odata.psm1" |out-String)
+Invoke-Expression (gc "$here\PshOdata.psm1" |out-String)
 
-$class = New-OdataClass Process -PK ID -Properties 'Name','ID'
+$class = New-PshOdataClass Process -PK ID -Properties 'Name','ID'
 
-Describe "New-OdataClass" {
+Describe "New-PshOdataClass" {
     It "Returns a psobject with the provided name" {
         $class.name | Should Be "Process"
     }
@@ -14,17 +14,17 @@ Describe "New-OdataClass" {
 	It "Returns a psobject with two properties" {
 		$class.properties.count |Should Be 2
 	}
-	It "New-OdataClass with only one property should return a list with one element in it" {
-		(New-OdataClass TestClass -PK ID -Properties 'ID').properties.count |Should Be 1
+	It "New-PshOdataClass with only one property should return a list with one element in it" {
+		(New-PshOdataClass TestClass -PK ID -Properties 'ID').properties.count |Should Be 1
 	}
 }
 
-Describe "Add-OdataMethod" {
+Describe "Add-PshOdataMethod" {
 	It "Validate that optional parameters are optional" {
-		{$class |set-odatamethod -verb get -cmdlet get-process} |should not Throw
+		{$class |Set-PshOdataMethod -verb get -cmdlet get-process} |should not Throw
 	}
 	It "Creates a GET method" {
-		{$class |set-odatamethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name} |should not Throw
+		{$class |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name} |should not Throw
 	}
 	It "Sets the get property of the class" {
 		$class.get |should not BeNullOrEmpty
@@ -36,13 +36,13 @@ Describe "Add-OdataMethod" {
 		$class.update|should BeNullOrEmpty
 	}
 	It "Creates a DELETE method" {
-		$class |set-odatamethod -verb delete -cmdlet stop-process -FilterParams ID,name -params ID,name
+		$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID,name -params ID,name
 	}
 	It "Fails if verb is not valid" {
-		{$class |set-odatamethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
+		{$class |Set-PshOdataMethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}
 	It "Fails if cmdlet is not valid" {
-		{$class |set-odatamethod -verb get -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
+		{$class |Set-PshOdataMethod -verb get -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}
 }
 
@@ -127,15 +127,15 @@ Describe "ConvertTo-ClassXML" {
     }
 }
 
-Describe "New-OdataEndpoint" {
-	It "New-OdataEndpoint succeeds if the folder exists and the -Force switch is used" {
-		{$class |New-OdataEndpoint} |Should Not Throw
+Describe "New-PshOdataEndpoint" {
+	It "New-PshOdataEndpoint succeeds if the folder exists and the -Force switch is used" {
+		{$class |New-PshOdataEndpoint} |Should Not Throw
 	}
-	It "New-OdataEndpoint should fail if the folder exists" {
-		{$class |New-OdataEndpoint} |Should Throw
+	It "New-PshOdataEndpoint should fail if the folder exists" {
+		{$class |New-PshOdataEndpoint} |Should Throw
 	}
-	It "New-OdataEndpoint succeeds if the folder exists and the -Force switch is used" {
-		{$class |New-OdataEndpoint -Force} |Should Not Throw
+	It "NewPshOdataEndpoint succeeds if the folder exists and the -Force switch is used" {
+		{$class |New-PshOdataEndpoint -Force} |Should Not Throw
 	}
     It "Should create schema.mof" {
         join-path odata schema.mof |Should exist

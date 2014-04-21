@@ -24,7 +24,7 @@ $rbacconfigtemplate = @'
 $paramignorelist = @('PipelineVariable','OutBuffer','OutVariable','WarningVariable','ErrorVariable','WarningAction',
                      'ErrorAction','Debug','Verbose')
 
-function New-OdataClass {
+function New-PshOdataClass {
 	param(
 		[Parameter(Mandatory=$true, Position=0)]
 		[string] $Name,
@@ -42,7 +42,7 @@ function New-OdataClass {
 	}
 }
 
-function Set-OdataMethod {
+function Set-PshOdataMethod {
 	param(
 		[Parameter(Mandatory=$true, ValueFromPipeline=$true)]
 		[PSObject[]] $InputObject,
@@ -70,7 +70,7 @@ function Set-OdataMethod {
 	}
 }
 
-function New-OdataEndpoint {
+function New-PshOdataEndpoint {
 	param(
 		[Parameter(Mandatory=$false, ValueFromPipeline=$true)]
 		[PsObject[]] $OdataClasses,
