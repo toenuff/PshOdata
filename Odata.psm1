@@ -152,15 +152,15 @@ function ConvertTo-ClassXML{
             } else {
                 $section = $verb
             }
-            $text += " "*8 + ("<{0}>`r`n" -f  $section)
-            $text += " "*10 + ("<Cmdlet>{0}</Cmdlet>`r`n" -f  $class.($verb).Cmdlet)
+            $text += " "*8 + "<{0}>`r`n" -f  $section
+            $text += " "*10 + "<Cmdlet>{0}</Cmdlet>`r`n" -f  $class.($verb).Cmdlet
             $text += $verbtext -f $section, $class.($verb).Cmdlet
 
             # Add Parameters/Options section
             if ($class.($verb).Parameters) {
                 $paramtext = " "*10 + "<Options>`r`n"
                 foreach ($parameter in ($class.($verb).Parameters)) {
-                    $paramtext += (" "*12 + "<ParameterName>{0}</ParameterName>`r`n") -f $parameter
+                    $paramtext += " "*12 + "<ParameterName>{0}</ParameterName>`r`n" -f $parameter
                 }
                 $text += $paramtext + " "*10 + "</Options>`r`n"
             }
@@ -170,8 +170,8 @@ function ConvertTo-ClassXML{
                 $paramtext = " "*10 + "<FieldParameterMap>`r`n"
                 foreach ($parameter in ($class.($verb).FilterParameters)) {
                     $paramtext += " "*12 + "<Field>`r`n"
-                    $paramtext += (" "*14 + "<FieldName>{0}</FieldName>`r`n") -f $parameter
-                    $paramtext += (" "*14 + "<ParameterName>{0}</ParameterName>`r`n") -f $parameter
+                    $paramtext += " "*14 + "<FieldName>{0}</FieldName>`r`n" -f $parameter
+                    $paramtext += " "*14 + "<ParameterName>{0}</ParameterName>`r`n" -f $parameter
                     $paramtext += " "*12 + "</Field>`r`n"
                 }
                 $paramtext += " "*10 + "</FieldParameterMap>`r`n"
