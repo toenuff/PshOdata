@@ -72,7 +72,8 @@ Describe "Get-ParameterSetXML" {
               </Parameter>
               <Parameter>
                 <Name>switchparam</Name>
-                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <Type>System.Management.Automation.SwitchParameter, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Type>
+                <IsSwitch>True</IsSwitch>
               </Parameter>
             </ParameterSet>
             <ParameterSet>
@@ -84,7 +85,8 @@ Describe "Get-ParameterSetXML" {
               </Parameter>
               <Parameter>
                 <Name>switchparam</Name>
-                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <Type>System.Management.Automation.SwitchParameter, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Type>
+                <IsSwitch>True</IsSwitch>
               </Parameter>
             </ParameterSet>
           </ParameterSets>

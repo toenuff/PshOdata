@@ -227,7 +227,12 @@ function Get-ParameterSetXML {
             if ($paramignorelist -notcontains $parameter.name) {
                 $text += " "*14 + "<Parameter>`r`n"
                 $text += " "*16 + "<Name>{0}</Name>`r`n" -f $parameter.name
-                $text += " "*16 + "<Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>`r`n"
+                if ($parameter.ParameterType.ToString() -eq 'System.Management.Automation.SwitchParameter') {
+                    $text += " "*16 + "<Type>System.Management.Automation.SwitchParameter, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Type>`r`n"
+                    $text += " "*16 + "<IsSwitch>True</IsSwitch>`r`n"
+                } else {
+                    $text += " "*16 + "<Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>`r`n"
+                }
                 if ($parameter.IsMandatory) {
                     $text += " "*16 + "<IsMandatory>True</IsMandatory>`r`n"
                 }
