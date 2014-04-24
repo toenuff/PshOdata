@@ -1,6 +1,12 @@
-$here = (Split-Path (Split-Path -Parent $MyInvocation.MyCommand.Path))
+$here = ''
+if ($MyInvocation.MyCommand.Path) {
+    $here = Split-Path $MyInvocation.MyCommand.Path
+} else {
+    $here = $pwd -replace '^\S+::',''
+}
+$odatapath = join-path $here "odata"
 
-Invoke-Expression (gc "$here\PshOdata.psm1" |out-String)
+Invoke-Expression (gc "$here\..\PshOdata.psm1" |out-String)
 
 $class = New-PshOdataClass Process -PK ID -Properties 'Name','ID'
 
@@ -120,7 +126,7 @@ Describe "ConvertTo-ResourceXML" {
     }
 }
 
-$validatexml = [IO.file]::ReadAllText((join-path tests validate_schema.xml))
+$validatexml = [IO.file]::ReadAllText((join-path $here validate_schema.xml))
 Describe "ConvertTo-ClassXML" {
     It "Converts a class to the text needed in the class section of the schema.xml" {
         $class |ConvertTo-ClassXML |Should be $validatexml
@@ -129,25 +135,25 @@ Describe "ConvertTo-ClassXML" {
 
 Describe "New-PshOdataEndpoint" {
 	It "New-PshOdataEndpoint succeeds if the folder exists and the -Force switch is used" {
-		{$class |New-PshOdataEndpoint} |Should Not Throw
+		{$class |New-PshOdataEndpoint -Path $odatapath} |Should Not Throw
 	}
 	It "New-PshOdataEndpoint should fail if the folder exists" {
-		{$class |New-PshOdataEndpoint} |Should Throw
+		{$class |New-PshOdataEndpoint -Path $odatapath} |Should Throw
 	}
 	It "NewPshOdataEndpoint succeeds if the folder exists and the -Force switch is used" {
-		{$class |New-PshOdataEndpoint -Force} |Should Not Throw
+		{$class |New-PshOdataEndpoint -Path $odatapath -Force} |Should Not Throw
 	}
     It "Should create schema.mof" {
-        join-path odata schema.mof |Should exist
+        join-path $odatapath schema.mof |Should exist
     }
     It "Should create schema.xml" {
-        join-path odata schema.xml |Should exist
+        join-path $odatapath schema.xml |Should exist
     }
     It "Should create RbacConfiguration.xml" {
-        join-path odata RbacConfiguration.xml |Should exist
+        join-path $odatapath RbacConfiguration.xml |Should exist
     }
     It "Validate data in RbacConfiguration.xml" {
-        [IO.file]::ReadAllText((join-path odata RbacConfiguration.xml)) |Should be @"
+        [IO.file]::ReadAllText((join-path $odatapath RbacConfiguration.xml)) |Should be @"
 <?xml version="1.0" encoding="utf-8"?>
 <RbacConfiguration>
 <Groups><Group Name="UserGroup" MapIncomingUser="true"><Modules>
@@ -161,5 +167,5 @@ Describe "New-PshOdataEndpoint" {
 }
 
 # cleanup the directory created during the tests
-rm (join-path $here odata) -recurse
+rm $odatapath -recurse
 
