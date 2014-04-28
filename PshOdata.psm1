@@ -165,13 +165,28 @@ function ConvertTo-ClassXML{
                 $text += $paramtext + " "*10 + "</Options>`r`n"
             }
             
+            $paramnames = (get-command $class.($verb).Cmdlet |select -ExpandProperty Parameters).keys
             # Add Filter parameters/FieldParameterMap section
             if ($class.($verb).FilterParameters) {
                 $paramtext = " "*10 + "<FieldParameterMap>`r`n"
                 foreach ($parameter in ($class.($verb).FilterParameters)) {
+                    $targetparameter = $parameter
+                    # FieldParameters are case sensitive on the target parameter
+                    if ($paramnames -cnotcontains $parameter) {
+                        if ($paramnames -contains $parameter) {
+                            foreach ($name in $paramnames) {
+                                if ($parameter -eq $name) {
+                                    # Set it blank first otherwise it won't take the case change
+                                    $targetparameter = $name
+                                }
+                            }
+                        } else {
+                            throw "{0} parameter does not exist in {1}" -f $parameter, $section, $class.($verb).Cmdlet
+                        }
+                    }
                     $paramtext += " "*12 + "<Field>`r`n"
                     $paramtext += " "*14 + "<FieldName>{0}</FieldName>`r`n" -f $parameter
-                    $paramtext += " "*14 + "<ParameterName>{0}</ParameterName>`r`n" -f $parameter
+                    $paramtext += " "*14 + "<ParameterName>{0}</ParameterName>`r`n" -f $targetparameter
                     $paramtext += " "*12 + "</Field>`r`n"
                 }
                 $paramtext += " "*10 + "</FieldParameterMap>`r`n"

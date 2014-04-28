@@ -42,7 +42,7 @@ Describe "Add-PshOdataMethod" {
 		$class.update|should BeNullOrEmpty
 	}
 	It "Creates a DELETE method" {
-		$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID,name -params ID,name
+		$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID,Name -params ID,Name
 	}
 	It "Fails if verb is not valid" {
 		{$class |Set-PshOdataMethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
@@ -129,7 +129,7 @@ Describe "ConvertTo-ResourceXML" {
 $validatexml = [IO.file]::ReadAllText((join-path $here validate_schema.xml))
 Describe "ConvertTo-ClassXML" {
     It "Converts a class to the text needed in the class section of the schema.xml" {
-        $class |ConvertTo-ClassXML |Should be $validatexml
+        $class |ConvertTo-ClassXML |Should BeExactly $validatexml
     }
 }
 

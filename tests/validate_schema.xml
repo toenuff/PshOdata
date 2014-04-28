@@ -126,16 +126,16 @@
           <Cmdlet>stop-process</Cmdlet>
           <Options>
             <ParameterName>ID</ParameterName>
-            <ParameterName>name</ParameterName>
+            <ParameterName>Name</ParameterName>
           </Options>
           <FieldParameterMap>
             <Field>
               <FieldName>ID</FieldName>
-              <ParameterName>ID</ParameterName>
+              <ParameterName>Id</ParameterName>
             </Field>
             <Field>
-              <FieldName>name</FieldName>
-              <ParameterName>name</ParameterName>
+              <FieldName>Name</FieldName>
+              <ParameterName>Name</ParameterName>
             </Field>
           </FieldParameterMap>
           <ParameterSets>
