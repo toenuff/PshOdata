@@ -42,8 +42,14 @@ Describe "Add-PshOdataMethod" {
 		$class.update|should BeNullOrEmpty
 	}
 	It "Creates a DELETE method" {
-		$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID,Name -params ID,Name
+        {$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID} |should not Throw
 	}
+	It "Fails if the DELETE method has a FieldParam that is not the pk" {
+        {$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams Name} |Should Throw
+	} 
+	It "Fails if the DELETE method has a value for the params argument" {
+        {$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID -params ID,Name} |Should Throw
+	} 
 	It "Fails if verb is not valid" {
 		{$class |Set-PshOdataMethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}

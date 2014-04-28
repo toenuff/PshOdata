@@ -124,18 +124,10 @@
         </Query>
         <Delete>
           <Cmdlet>stop-process</Cmdlet>
-          <Options>
-            <ParameterName>ID</ParameterName>
-            <ParameterName>Name</ParameterName>
-          </Options>
           <FieldParameterMap>
             <Field>
               <FieldName>ID</FieldName>
               <ParameterName>Id</ParameterName>
-            </Field>
-            <Field>
-              <FieldName>Name</FieldName>
-              <ParameterName>Name</ParameterName>
             </Field>
           </FieldParameterMap>
           <ParameterSets>

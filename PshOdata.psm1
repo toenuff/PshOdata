@@ -60,6 +60,14 @@ function Set-PshOdataMethod {
 		[string[]] $FilterParameters
 	)
 	PROCESS {
+        if ($verb -eq 'delete') {
+            # Delete only appears to work with the pk in the fieldparameterset.
+            # It actually doesn't work with parameters at all
+            if ($Parameters.count -gt 0 -or $FilterParameters.count -gt 1 -or $FilterParameters[0] -ne $InputObject.pk) {
+                throw "DELETE methods can only use the primary key as a FieldParameter and they cannot use parameters.
+                       Try Set-PshOdataMethod -verb DELETE -FilterParameters $($InputObject.pk)"
+            }
+        }
 		$method = new-object psobject -Property @{
 			Cmdlet = $cmdlet
 			Module = 'c:\windows\system32\WindowsPowerShell\v1.0\Modules\{0}' -f (get-command $Cmdlet).Modulename
