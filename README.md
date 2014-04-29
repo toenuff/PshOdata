@@ -3,9 +3,10 @@
 2008R2 and 2012 versions of Windows contain a feature called IIS Odata Extensions.  An IIS application that uses the extensions can be configured to create a RESTful web service that will run PowerShell cmdlets and return the objects as either JSON or XML.  The PshOdata Module makes it easy to generate the files used to create these endpoints.
 
 ## Example Usage
+> $class = New-PshOdataClass Process -PK ID -Properties 'Name','ID'
 > $class |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
 > $class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
-> $class | New-PshOdataEndpoint
+> $class |New-PshOdataEndpoint
 
 The above will create the files required to allow GET and SET http methods to a url like this:
 * http://server/odata/Process
