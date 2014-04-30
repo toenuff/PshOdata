@@ -82,7 +82,7 @@ function New-PshOdataClass {
 	}
 }
 
-function Set-PshOdataMethod {
+function Add-PshOdataMethod {
 <#
  .Synopsis
  This cmdlet adds a GET, DELETE, UPDATE, or CREATE method to the class
@@ -135,7 +135,7 @@ function Set-PshOdataMethod {
  The following will add a get method that uses get-process.  It will allow name and ID parameters, and it will
  allow Name to be used as a parameter if a filter is specified in the URL.
 
- $class |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
+ $class |Add-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
 
  The above will allow the following urls:
  http://servername/odata/Process
@@ -145,7 +145,7 @@ function Set-PshOdataMethod {
  .Example
  The following will create a delete method that runs stop-process:
 
- $class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
+ $class |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
 
  The above will allow the delete verb to be passed to the following URL:
  http://servername/odata/Process('3333')
@@ -176,7 +176,7 @@ function Set-PshOdataMethod {
             # It actually doesn't work with parameters at all
             if ($Parameters.count -gt 0 -or $FilterParameters.count -gt 1 -or $FilterParameters[0] -ne $InputObject.pk) {
                 throw "DELETE methods can only use the primary key as a FieldParameter and they cannot use parameters.
-                       Try Set-PshOdataMethod -verb DELETE -FilterParameters $($InputObject.pk)"
+                       Try Add-PshOdataMethod -verb DELETE -FilterParameters $($InputObject.pk)"
             }
         }
 		$method = new-object psobject -Property @{
@@ -195,7 +195,7 @@ function New-PshOdataEndpoint {
  Creates an odata endpoint from a collection of defined Odata class objects with methods
 
  .Description
- This cmdlet is used in conjunction with New-PshOdataClass and Set-PshOdataMethod.  When New-PshOdataEndpoint is called,
+ This cmdlet is used in conjunction with New-PshOdataClass and Add-PshOdataMethod.  When New-PshOdataEndpoint is called,
  the following three files are created:
 
      Schema.mof - a document that describes the properties and PK for the classes in the endpoint.
@@ -212,7 +212,7 @@ function New-PshOdataEndpoint {
 
  .Parameter PshOdataClasses
  A collection of PshOdata classes with methods that are set for the classes.  This generally comes from the output of New-PshOdataClass and
- Set-PshOdataMethod.
+ Add-PshOdataMethod.
 
  .Parameter Force
  This is used to overwrite the output files if they already exist.
@@ -225,8 +225,8 @@ function New-PshOdataEndpoint {
 
  .Example
  $class = New-PshOdataClass Process -PK ID -Properties 'Name','ID'
- $class |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
- $class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
+ $class |Add-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
+ $class |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
  $class | New-PshOdataEndpoint
 
  The above will create the files required to allow GET and SET http methods to a url like this:
@@ -242,8 +242,8 @@ function New-PshOdataEndpoint {
  .Example
  The following creates the files required for an Odata Endpoint that serves Process and Service objects that are returned from Get-Process and Get-Service
  $classes = @()
- $classes += New-PshOdataClass Process -PK ID -Properties 'Name', 'ID' |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
- $classes += New-PshOdataClass Service -PK Name -Properties 'Status', 'Name', 'Displayname' |Set-PshOdataMethod -verb get -cmdlet get-Service -Params Name -FilterParams Name
+ $classes += New-PshOdataClass Process -PK ID -Properties 'Name', 'ID' |Add-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
+ $classes += New-PshOdataClass Service -PK Name -Properties 'Status', 'Name', 'Displayname' |Add-PshOdataMethod -verb get -cmdlet get-Service -Params Name -FilterParams Name
  $classes |New-PshOdataEndpoint
 
  .Example
