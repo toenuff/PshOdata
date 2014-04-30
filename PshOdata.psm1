@@ -106,6 +106,9 @@ function Add-PshOdataMethod {
 
  http://servername/odata/classname?paramname=value
 
+ .Parameter PassThru
+ Returns the class object that the method is added to
+
  .Parameter FilterParams
  This is a special parameter that can be used with odata filters.  Filtering can be done with any property of the
  Odata class.  However, if you use a filter parameter, it will ensure that the filter is applied by calling the 
@@ -150,6 +153,11 @@ function Add-PshOdataMethod {
  The above will allow the delete verb to be passed to the following URL:
  http://servername/odata/Process('3333')
 
+ .Example
+ Add-PshOdataMethod can be chained together with other Add-PshOdataMethod by using the PassThru parameter
+
+ $class |Add-PshOdataMethod -Passthru -verb get -cmdlet get-process -Params Name, ID -FilterParams Name |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
+
  .LINK
  https://github.com/toenuff/PshOdata/
 
@@ -168,7 +176,9 @@ function Add-PshOdataMethod {
 		[string[]] $Parameters,
 		[Parameter(Mandatory=$false)]
 		[alias("FilterParams")]
-		[string[]] $FilterParameters
+		[string[]] $FilterParameters,
+        [Parameter(Mandatory=$false)]
+        [switch] $Passthru
 	)
 	PROCESS {
         if ($verb -eq 'delete') {
@@ -186,6 +196,9 @@ function Add-PshOdataMethod {
 			FilterParameters = $FilterParameters
 		}
 		$InputObject |add-member -NotePropertyName $verb -NotePropertyValue $method -force
+        if ($Passthru) {
+            $InputObject
+        }
 	}
 }
 

@@ -56,6 +56,12 @@ Describe "Add-PshOdataMethod" {
 	It "Fails if cmdlet is not valid" {
 		{$class |Add-PshOdataMethod -verb get -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}
+    It "Correctly grabs the module for the GET method" {
+        $class.get.module| Should be "c:\windows\system32\WindowsPowerShell\v1.0\Modules\Microsoft.PowerShell.Management"
+    }
+    It "Supports PassThru" {
+        (New-PshOdataClass Process -PK ID -Properties 'Name','ID'|Add-PshOdataMethod -PassThru -verb get -cmdlet get-process -Params Name, ID -FilterParams Name).Get.Module | Should be "c:\windows\system32\WindowsPowerShell\v1.0\Modules\Microsoft.PowerShell.Management"
+    }
 }
 
 function CommandWith2ParamSets {
