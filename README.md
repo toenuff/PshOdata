@@ -5,8 +5,8 @@
 ## Example Usage
 ````
 $class = New-PshOdataClass Process -PK ID -Properties 'Name','ID'
-$class |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
-$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
+$class |Add-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name
+$class |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID
 $class |New-PshOdataEndpoint
 ````
 

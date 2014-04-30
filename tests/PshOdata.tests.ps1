@@ -27,10 +27,10 @@ Describe "New-PshOdataClass" {
 
 Describe "Add-PshOdataMethod" {
 	It "Validate that optional parameters are optional" {
-		{$class |Set-PshOdataMethod -verb get -cmdlet get-process} |should not Throw
+		{$class |Add-PshOdataMethod -verb get -cmdlet get-process} |should not Throw
 	}
 	It "Creates a GET method" {
-		{$class |Set-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name} |should not Throw
+		{$class |Add-PshOdataMethod -verb get -cmdlet get-process -Params Name, ID -FilterParams Name} |should not Throw
 	}
 	It "Sets the get property of the class" {
 		$class.get |should not BeNullOrEmpty
@@ -42,19 +42,19 @@ Describe "Add-PshOdataMethod" {
 		$class.update|should BeNullOrEmpty
 	}
 	It "Creates a DELETE method" {
-        {$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID} |should not Throw
+        {$class |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID} |should not Throw
 	}
 	It "Fails if the DELETE method has a FieldParam that is not the pk" {
-        {$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams Name} |Should Throw
+        {$class |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams Name} |Should Throw
 	} 
 	It "Fails if the DELETE method has a value for the params argument" {
-        {$class |Set-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID -params ID,Name} |Should Throw
+        {$class |Add-PshOdataMethod -verb delete -cmdlet stop-process -FilterParams ID -params ID,Name} |Should Throw
 	} 
 	It "Fails if verb is not valid" {
-		{$class |Set-PshOdataMethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
+		{$class |Add-PshOdataMethod -verb blah -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}
 	It "Fails if cmdlet is not valid" {
-		{$class |Set-PshOdataMethod -verb get -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
+		{$class |Add-PshOdataMethod -verb get -cmdlet dir -pk ID -Params Name, ID -FilterParams Name} |should Throw
 	}
 }
 
