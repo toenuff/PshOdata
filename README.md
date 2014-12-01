@@ -37,7 +37,7 @@ The following steps must be performed on Windows Server 2012 box that does NOT h
 
 1. Add-WindowsFeature ManagementOdata # Install the odata extensions
 1. Install Visual Studio Isolated Shell - http://www.microsoft.com/en-us/download/details.aspx?id=1366
-1. Install the odata extension isolated installer - http://archive.msdn.microsoft.com/mgmtODataWebServ/Release/ProjectReleases.aspx?ReleaseId=5877
+1. Install the odata extension isolated installer - https://visualstudiogallery.msdn.microsoft.com/77bb35c1-7695-4f5e-ba1a-9ffeb6fe0d14
 1. Launch the Management Odata Schema Designer from the start screen
    1. File-> New File -> Management Odata Model
    1. Right-Click and select Import Cmdlets
