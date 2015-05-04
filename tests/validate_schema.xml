@@ -49,20 +49,6 @@
               </Parameter>
             </ParameterSet>
             <ParameterSet>
-              <Name>IdWithUserName</Name>
-              <Parameter>
-                <Name>Id</Name>
-                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
-                <IsMandatory>True</IsMandatory>
-              </Parameter>
-              <Parameter>
-                <Name>IncludeUserName</Name>
-                <Type>System.Management.Automation.SwitchParameter, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Type>
-                <IsSwitch>True</IsSwitch>
-                <IsMandatory>True</IsMandatory>
-              </Parameter>
-            </ParameterSet>
-            <ParameterSet>
               <Name>Id</Name>
               <Parameter>
                 <Name>Id</Name>
@@ -85,9 +71,9 @@
               </Parameter>
             </ParameterSet>
             <ParameterSet>
-              <Name>InputObjectWithUserName</Name>
+              <Name>IdWithUserName</Name>
               <Parameter>
-                <Name>InputObject</Name>
+                <Name>Id</Name>
                 <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
                 <IsMandatory>True</IsMandatory>
               </Parameter>
@@ -118,6 +104,20 @@
                 <Name>FileVersionInfo</Name>
                 <Type>System.Management.Automation.SwitchParameter, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Type>
                 <IsSwitch>True</IsSwitch>
+              </Parameter>
+            </ParameterSet>
+            <ParameterSet>
+              <Name>InputObjectWithUserName</Name>
+              <Parameter>
+                <Name>InputObject</Name>
+                <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
+                <IsMandatory>True</IsMandatory>
+              </Parameter>
+              <Parameter>
+                <Name>IncludeUserName</Name>
+                <Type>System.Management.Automation.SwitchParameter, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Type>
+                <IsSwitch>True</IsSwitch>
+                <IsMandatory>True</IsMandatory>
               </Parameter>
             </ParameterSet>
           </ParameterSets>
@@ -160,9 +160,9 @@
               </Parameter>
             </ParameterSet>
             <ParameterSet>
-              <Name>Name</Name>
+              <Name>InputObject</Name>
               <Parameter>
-                <Name>Name</Name>
+                <Name>InputObject</Name>
                 <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
                 <IsMandatory>True</IsMandatory>
               </Parameter>
@@ -188,9 +188,9 @@
               </Parameter>
             </ParameterSet>
             <ParameterSet>
-              <Name>InputObject</Name>
+              <Name>Name</Name>
               <Parameter>
-                <Name>InputObject</Name>
+                <Name>Name</Name>
                 <Type>System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Type>
                 <IsMandatory>True</IsMandatory>
               </Parameter>

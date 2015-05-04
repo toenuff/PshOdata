@@ -420,7 +420,7 @@ function Get-ParameterSetXML {
           [String] $Cmdlet
     )
     $text = " "*10 + "<ParameterSets>`r`n"
-    foreach ($parameterset in (get-command $cmdlet |select -ExpandProperty parametersets)) {
+    foreach ($parameterset in (get-command $cmdlet |select -ExpandProperty parametersets |sort)) {
         $text += " "*12 + "<ParameterSet>`r`n"
         $text += " "*14 + "<Name>{0}</Name>`r`n" -f $parameterset.name
         foreach ($parameter in ($parameterset.Parameters)) {

@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/72ohweyiaogj34po/branch/master?svg=true)](https://ci.appveyor.com/project/toenuff/pshodata)
+
 # PshOdata Module
 
 2008R2 and 2012 versions of Windows contain a feature called IIS Odata Extensions.  An IIS application that uses the extensions can be configured to create a RESTful web service that will run PowerShell cmdlets and return the objects as either JSON or XML.  The PshOdata Module makes it easy to generate the files used to create these endpoints.

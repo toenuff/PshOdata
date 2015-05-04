@@ -141,7 +141,7 @@ Describe "ConvertTo-ClassXML" {
 
 Describe "New-PshOdataEndpoint" {
 	It "New-PshOdataEndpoint succeeds if the folder exists and the -Force switch is used" {
-		{$class |New-PshOdataEndpoint -Path $odatapath} |Should Not Throw
+		{$class |New-PshOdataEndpoint -Path $odatapath -Force} |Should Not Throw
 	}
 	It "New-PshOdataEndpoint should fail if the folder exists" {
 		{$class |New-PshOdataEndpoint -Path $odatapath} |Should Throw
@@ -173,5 +173,6 @@ Describe "New-PshOdataEndpoint" {
 }
 
 # cleanup the directory created during the tests
-rm $odatapath -recurse
+dir $odatapath |remove-item #buggy recurse requires this
+rm $odatapath -recurse #even though above, bugginess requires this
 
